@@ -1,7 +1,46 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@* @attribute [StreamRendering] *@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div class="page-size-chooser">
+    Items per page:
+    <select @bind="@pagination.ItemsPerPage">
+        <option>5</option>
+        <option>10</option>
+        <option>20</option>
+        <option>50</option>
+    </select>
+</div>
+
+@* <div class="grid">
+    <button class="btn btn-primary" @onclick="CreateNewRecord">Create new Product</button>
+</div> *@
+
+<div class="grid">
+    <QuickGrid Items="@productIQueryable" Pagination="@pagination">
+        <PropertyColumn Property="@(p => p.Id)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+    </QuickGrid>
+</div>
+
+
+<div class="page-buttons">
+    Page:
+    @if (pagination.TotalItemCount.HasValue)
+    {
+        for (var pageIndex = 0; pageIndex <= pagination.LastPageIndex; pageIndex++)
+        {
+            var capturedIndex = pageIndex;
+            <button @onclick="@(() => GoToPageAsync(capturedIndex))"
+                    class="@PageButtonClass(capturedIndex)"
+                    aria-current="@AriaCurrentValue(capturedIndex)"
+                    aria-label="Go to page @(pageIndex + 1)">
+                @(pageIndex + 1)
+            </button>
+        }
+    }
+</div>
