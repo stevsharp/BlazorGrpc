@@ -7,6 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorGrpc.Service;
 
+//public class ProductServiceClient
+//{
+//    private readonly ProductService.ProductServiceClient _client;
+
+//    public ProductServiceClient(ProductService.c
+//        client)
+//    {
+//        _client = client;
+//    }
+
+//    public async Task<ProductResponse> GetProductAsync(int id, string token)
+//    {
+//        var request = new GetProductRequest { Id = id };
+//        var headers = new Metadata { { "Authorization", $"Bearer {token}" } };
+//        return await _client.GetProductAsync(request, headers);
+//    }
+//}
+
 public class ServerProductService : ProductService.ProductServiceBase
 {
     private readonly ProductContext _context;

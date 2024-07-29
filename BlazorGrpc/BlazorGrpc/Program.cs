@@ -15,6 +15,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddGrpc(x=>x.EnableDetailedErrors = true);
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite("Data Source=products.db"));
+builder.Services.AddScoped<ServerProductService>();
+
 
 var app = builder.Build();
 
@@ -30,6 +32,8 @@ else
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -40,6 +44,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorGrpc.Client._Imports).Assembly);
 
-app.MapGrpcService<ServerProductService>();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+app.MapGrpcService<ServerProductService>()
+            .EnableGrpcWeb();
 
 app.Run();
