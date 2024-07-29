@@ -15,3 +15,12 @@ BlazorGrpc is a sample project demonstrating how to implement a gRPC service usi
 ```bash
 git clone https://github.com/stevsharp/BlazorGrpc.git
 cd BlazorGrpc
+
+## Setting Up the Project
+Install Required Packages
+
+Ensure all necessary packages are installed:
+
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Grpc.AspNetCore
