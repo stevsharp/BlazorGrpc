@@ -39,7 +39,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ProductContext") ?? "Data Source=products.db"));
-
+builder.Services.AddScoped<ServerProductService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
