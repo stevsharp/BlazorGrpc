@@ -1,25 +1,25 @@
-﻿using BlazorGrpc.gRPC;
+﻿using BlazorAppData.Interrface;
+
+using BlazorGrpc.gRPC;
 using BlazorGrpc.Model;
 
 using Grpc.Core;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace BlazorGrpc.Service;
 
 
 public class ServerProductService : ProductService.ProductServiceBase
 {
-    private readonly ProductContext _context;
-    public ServerProductService(ProductContext context)
+    private readonly IProductRepository _productRepository;
+    public ServerProductService(IProductRepository productRepository)
     {
-        _context = context;
+        _productRepository = productRepository;
     }
 
     public override async Task<ProductResponse> GetProduct(GetProductRequest request, ServerCallContext context)
     {
-        var product = await _context.Products.FindAsync(request.Id);
-        
+        var product = await _productRepository.GetProductByIdAsync(request.Id);
+
         if (product == null)
         {
             throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
@@ -41,9 +41,10 @@ public class ServerProductService : ProductService.ProductServiceBase
             Price = (decimal)request.Price
         };
 
-        _context.Products.Add(product);
+        var isCreated = await _productRepository.CreateProdut(product); 
 
-        await _context.SaveChangesAsync();
+        if (!isCreated)
+            throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Created !!!!"));
 
         return new ProductResponse
         {
@@ -55,16 +56,17 @@ public class ServerProductService : ProductService.ProductServiceBase
 
     public override async Task<ProductResponse> UpdateProduct(UpdateProductRequest request, ServerCallContext context)
     {
-        var product = await _context.Products.FindAsync(request.Id);
-        if (product == null)
+        var product = new Product
         {
-            throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
-        }
+            Id = request.Id,
+            Name = request.Name,
+            Price = (decimal)request.Price
+        };
 
-        product.Name = request.Name;
-        product.Price = (decimal)request.Price;
+        var isUpdated =  await _productRepository.UpdateProduct(product);
 
-        await _context.SaveChangesAsync();
+        if (!isUpdated)
+            throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Updated !!!"));
 
         return new ProductResponse
         {
@@ -76,30 +78,32 @@ public class ServerProductService : ProductService.ProductServiceBase
 
     public override async Task<Empty> DeleteProduct(DeleteProductRequest request, ServerCallContext context)
     {
-        var product = await _context.Products.FindAsync(request.Id);
-        if (product == null)
-        {
-            throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
-        }
 
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
+        var product = new Product
+        {
+            Id = request.Id
+        };
+
+        var isDeleted = await _productRepository.DeleteProduct(product);
+
+        if (!isDeleted)
+            throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
 
         return new Empty();
     }
 
     public override async Task<ProductListResponse> ListProducts(Empty request, ServerCallContext context)
     {
-        var products = await _context.Products.Select(p => new ProductResponse
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = (float)p.Price
-        }).ToListAsync();
+        var products = await _productRepository.GetProductsAsync() ?? Enumerable.Empty<Product>();
 
         var response = new ProductListResponse();
 
-        response.Products.AddRange(products);
+        response.Products.AddRange(products.Select(x=> new ProductResponse
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Price = (float)x.Price
+        }));
 
         return response;
     }

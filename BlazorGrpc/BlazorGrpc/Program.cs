@@ -1,4 +1,7 @@
 
+using BlazorAppData.Interrface;
+using BlazorAppData.Repository;
+
 using BlazorGrpc.Components;
 using BlazorGrpc.Model;
 using BlazorGrpc.Service;
@@ -16,6 +19,8 @@ builder.Services.AddGrpc(x=>x.EnableDetailedErrors = true);
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite("Data Source=products.db"));
 builder.Services.AddScoped<ServerProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 
 var app = builder.Build();
