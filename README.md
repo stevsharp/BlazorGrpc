@@ -50,7 +50,6 @@ app.MapGet("/", () => "Communication with gRPC endpoints must be made through a 
 
 app.Run();
 
-```
 Blazor QuickGrid
 
 <div class="grid" tabindex="-1" style="display: @(loading ? "none" : "block")">
