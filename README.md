@@ -1,6 +1,8 @@
 # BlazorGrpc
 
-BlazorGrpc is a sample project demonstrating how to implement a gRPC service using ASP.NET Core and Entity Framework Core for CRUD operations. This project uses SQLite as the database provider.
+BlazorGrpc is a sample project demonstrating how to implement a gRPC service using ASP.NET Core Blazor and Entity Framework Core for CRUD operations. 
+
+This project uses SQLite as the database provider.
 
 ## Prerequisites
 
