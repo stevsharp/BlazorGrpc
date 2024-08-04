@@ -9,43 +9,80 @@ namespace BlazorGrpc.Components.Pages;
 public partial class Home
 {
     [Inject]
-    public ServerProductService ServerProduct { get; set; }
+    protected ServerProductService? ServerProduct { get; set; }
+    protected List<Product> productListResponse { get; set; } = [];
+    private IQueryable<Product>? ProductIQueryable { get; set; }
 
-    private List<Product> productListResponse { get; set; } = [];
+    protected PaginationState pagination = new() { ItemsPerPage = 5 };
 
-    private IQueryable<Product> productIQueryable { get; set; }
+    protected bool loading = false;
 
-    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    private QuickGrid<Product> grid;
 
     protected override async Task OnInitializedAsync()
     {
 		try
 		{
-          
-            var response =  await ServerProduct.ListProducts(null , null);
-
-            if (response != null) {
-
-                foreach (var item in response.Products)
-                {
-                    productListResponse.Add(new Product
-                    {
-                        Id = item.Id,
-                        Name = item.Name,
-                        Price  = (decimal)item.Price
-                    });
-                }
-
-                productIQueryable = productListResponse.AsQueryable();
-
-                pagination.TotalItemCountChanged += (sender, eventArgs) => StateHasChanged();
-            }
+            await FillData();
         }
 		catch (Exception ex)
 		{
-			throw;
+			Console.WriteLine(ex.ToString());
 		}
 
+    }
+
+    private async ValueTask FillData()
+    {
+        loading = true;
+
+        if (productListResponse.Any())
+            productListResponse.Clear();
+
+        var response = await ServerProduct.ListProducts(null, null);
+
+        if (response != null)
+        {
+
+            foreach (var item in response.Products)
+            {
+                productListResponse.Add(new Product
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Price = (decimal)item.Price
+                });
+            }
+
+            ProductIQueryable = productListResponse.AsQueryable();
+
+            pagination.TotalItemCountChanged += (sender, eventArgs) => StateHasChanged();
+        }
+
+        
+        loading = false;
+    }
+
+    private void EditRow(Product product )
+    {
+
+    }
+
+    private void SaveRow(Product product)
+    {
+
+    }
+
+    private void CancelEdit(Product product)
+    {
+
+    }
+
+    private void OnRowEdit(ChangeEventArgs e)
+    {
+        // Handle input change events
+        var input = e.Value.ToString();
+        // Update the model based on the input
     }
 
     private async Task CreateNewRecord()
@@ -55,6 +92,8 @@ public partial class Home
         int randomInt = random.Next();
 
         await ServerProduct.CreateProduct(new gRPC.CreateProductRequest { Name = "Test " + randomInt.ToString(), Price = randomInt }, null);
+
+        await FillData();
 
         this.StateHasChanged();
     }

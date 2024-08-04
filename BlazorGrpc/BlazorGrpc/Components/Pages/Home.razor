@@ -1,7 +1,7 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.QuickGrid
-@* @attribute [StreamRendering] *@
 
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -16,13 +16,13 @@
     </select>
 </div>
 
-@* <div class="grid">
-    <button class="btn btn-primary" @onclick="CreateNewRecord">Create new Product</button>
-</div> *@
-
 <div class="grid">
-    <QuickGrid Items="@productIQueryable" Pagination="@pagination">
-        <PropertyColumn Property="@(p => p.Id)" Sortable="true" />
+    <button class="btn btn-primary" @onclick="CreateNewRecord">Create new Product</button>
+</div>
+
+<div class="grid" tabindex="-1" style="display: @(loading ? "none" : "block")">
+    <QuickGrid Items="@ProductIQueryable" Pagination="@pagination">
+        <PropertyColumn Property="@(p => p.Id)"  Sortable="true" />
         <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
         <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
     </QuickGrid>
