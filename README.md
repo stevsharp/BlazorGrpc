@@ -49,3 +49,13 @@ app.MapGrpcService<ProductService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client.");
 
 app.Run();
+
+Blazor QuickGrid
+
+<div class="grid" tabindex="-1" style="display: @(loading ? "none" : "block")">
+    <QuickGrid Items="@ProductIQueryable" Pagination="@pagination">
+        <PropertyColumn Property="@(p => p.Id)"  Sortable="true" />
+        <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+    </QuickGrid>
+</div>
