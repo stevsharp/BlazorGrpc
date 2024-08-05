@@ -22,9 +22,15 @@
 
 <div class="grid" tabindex="-1" style="display: @(loading ? "none" : "block")">
     <QuickGrid Items="@ProductIQueryable" Pagination="@pagination">
+
         <PropertyColumn Property="@(p => p.Id)"  Sortable="true" />
         <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
         <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
+
+        <TemplateColumn Title="Actions">
+            <button @onclick="@(() => EditRow(context))">Edit</button>
+            <button @onclick="@(() => Delete(context))">Delete</button>
+        </TemplateColumn>
     </QuickGrid>
 </div>
 

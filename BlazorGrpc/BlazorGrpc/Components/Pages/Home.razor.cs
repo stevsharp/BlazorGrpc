@@ -63,20 +63,41 @@ public partial class Home
         loading = false;
     }
 
-    private void EditRow(Product product )
+
+    private async Task EditRow(Product product )
     {
 
+        if (product is null)
+            return;
+
+        loading = true;
+
+        var response = await ServerProduct.UpdateProduct(new gRPC.UpdateProductRequest
+            {
+                Id = product.Id,
+                Name = product.Name,
+            }, null);
+
+
+        await FillData();
     }
 
-    private void SaveRow(Product product)
+    private async Task Delete(Product product)
     {
+        if (product is null)
+            return;
 
+        loading = true;
+
+        await ServerProduct.DeleteProduct(new gRPC.DeleteProductRequest
+            {
+                Id = product.Id
+            }, null);
+
+
+        await FillData();
     }
 
-    private void CancelEdit(Product product)
-    {
-
-    }
 
     private void OnRowEdit(ChangeEventArgs e)
     {

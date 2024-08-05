@@ -43,7 +43,7 @@ public class ProductRepository : IProductRepository
 
         if (product is not null) {
 
-            _context.Products.Remove(product);
+             _context.Products.Remove(productForDelete);
 
             return (await _context.SaveChangesAsync()) > 0;
         }
@@ -77,6 +77,8 @@ public class ProductRepository : IProductRepository
             productForUpdate.Name = product.Name;
 
             productForUpdate.Price = product.Price;
+
+            _context.Products.Update(productForUpdate);
 
             return (await _context.SaveChangesAsync()) > 0;
         }
