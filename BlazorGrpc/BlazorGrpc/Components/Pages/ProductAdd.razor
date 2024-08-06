@@ -1,0 +1,45 @@
+﻿@page "/productadd"
+
+<h3>ProductAdd</h3>
+
+@if (!IsSaved)
+{
+    <EditForm Model="product" OnValidSubmit="OnSubmit" Enhance FormName="ProductAdd">
+
+        <div class="row mb-3">
+            <label for="Product" class="col-form-label col-md-3">Product: </label>
+            <div class="col-md-8">
+                <InputText id="Product" class="form-control col-md-8" @bind-Value="@product.Name" placeholder="Enter last name"></InputText>
+                <ValidationMessage For="@(() => product.Name)" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="Price" class="col-form-label col-md-3">Price: </label>
+            <div class="col-md-8">
+                <InputNumber id="Price" class="form-control col-md-8" @bind-Value="@product.Price" placeholder="Enter Price"></InputNumber>
+                <ValidationMessage For="@(() => product.Price)" />
+            </div>
+        </div>
+
+        <nav class="flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All"> 
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Products
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <button type="submit" class="btn btn-outline-primary ms-1">Submit</button>
+            </div>
+        </nav>
+
+    </EditForm>
+}
+else
+{
+    <h4 class="text-success">@Message</h4>
+
+    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Products
+    </NavLink>
+} 

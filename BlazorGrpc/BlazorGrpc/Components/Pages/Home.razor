@@ -24,9 +24,11 @@
     </select>
 </div>
 
-<div class="grid">
-    <button class="btn btn-primary" @onclick="CreateNewRecord">Create new Product</button>
-</div>
+
+<NavLink class="list-group-item list-group-item-action bg-light" href="/productadd">
+    Add Product
+</NavLink>
+
 
 <div class="grid" tabindex="-1" style="display: @(loading ? "none" : "block")">
     <QuickGrid Items="@ProductIQueryable" Pagination="@pagination">

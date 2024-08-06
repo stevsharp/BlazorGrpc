@@ -71,19 +71,7 @@ public partial class Home
     private async Task EditRow(Product product )
     {
 
-        if (product is null)
-            return;
 
-        loading = true;
-
-        var response = await ServerProduct.UpdateProduct(new gRPC.UpdateProductRequest
-            {
-                Id = product.Id,
-                Name = product.Name,
-            }, null);
-
-
-        await FillData();
     }
 
     private Task Delete(Product product)
@@ -103,34 +91,9 @@ public partial class Home
         // Update the model based on the input
     }
 
-    private async Task CreateNewRecord()
-    {
-        Random random = new();
-
-        int randomInt = random.Next();
-
-        await ServerProduct.CreateProduct(new gRPC.CreateProductRequest { Name = "Test " + randomInt.ToString(), Price = randomInt }, null);
-
-        await FillData();
-
-        this.StateHasChanged();
-    }
-
-
     private async Task ShowConfirmDialog(Product product)
     {
-        try
-        {
-            ShowMessageBox = true;
-
-            
-        }
-        catch (Exception ex)
-        {
-            var m = ex.Message;
-        }
-
-
+        ShowMessageBox = true;
     }
 
     private async Task OnConfirmed(bool isConfirmed)
