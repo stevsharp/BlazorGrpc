@@ -11,6 +11,9 @@ public partial class Home
 {
     [Inject]
     protected ServerProductService? ServerProduct { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
     protected List<Product> productListResponse { get; set; } = [];
     private IQueryable<Product>? ProductIQueryable { get; set; }
 
@@ -68,10 +71,11 @@ public partial class Home
     }
 
 
-    private async Task EditRow(Product product )
+    private  Task EditRow(Product product )
     {
+        NavigationManager.NavigateTo($"producteedit/{product.Id}");
 
-
+        return Task.CompletedTask;
     }
 
     private Task Delete(Product product)
