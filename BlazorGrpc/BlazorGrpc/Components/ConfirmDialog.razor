@@ -1,0 +1,27 @@
+@rendermode InteractiveServer
+
+@if (Show){
+    <div class="modal fade show d-block" id="ConfirmModalId" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">@Title</h5>
+                    <button type="button" class="close btn btn-lg" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    @Message
+                </div>
+
+                <div class="modal-body">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" @onclick="() => Confirm(true)">Yes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

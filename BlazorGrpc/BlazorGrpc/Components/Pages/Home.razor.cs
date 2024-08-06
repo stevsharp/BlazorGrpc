@@ -3,6 +3,7 @@ using BlazorGrpc.Service;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid;
+using Microsoft.JSInterop;
 
 namespace BlazorGrpc.Components.Pages;
 
@@ -19,6 +20,9 @@ public partial class Home
 
     private QuickGrid<Product> grid;
 
+    private bool ShowMessageBox { get; set; } = false;
+
+    private Product CurrentProduct { get; set; } = default!;
     protected override async Task OnInitializedAsync()
     {
 		try
@@ -82,20 +86,13 @@ public partial class Home
         await FillData();
     }
 
-    private async Task Delete(Product product)
+    private Task Delete(Product product)
     {
-        if (product is null)
-            return;
+        ShowMessageBox = true;
 
-        loading = true;
+        CurrentProduct = product;
 
-        await ServerProduct.DeleteProduct(new gRPC.DeleteProductRequest
-            {
-                Id = product.Id
-            }, null);
-
-
-        await FillData();
+        return Task.CompletedTask;
     }
 
 
@@ -117,6 +114,49 @@ public partial class Home
         await FillData();
 
         this.StateHasChanged();
+    }
+
+
+    private async Task ShowConfirmDialog(Product product)
+    {
+        try
+        {
+            ShowMessageBox = true;
+
+            
+        }
+        catch (Exception ex)
+        {
+            var m = ex.Message;
+        }
+
+
+    }
+
+    private async Task OnConfirmed(bool isConfirmed)
+    {
+        if (isConfirmed)
+        {
+            if (CurrentProduct is null)
+                return;
+
+            loading = true;
+
+            await ServerProduct.DeleteProduct(new gRPC.DeleteProductRequest
+            {
+                Id = CurrentProduct.Id
+            }, null);
+
+
+            await FillData();
+
+        }
+        else
+        {
+            Console.WriteLine("Deletion cancelled.");
+        }
+
+        this.ShowMessageBox = false;
     }
 
     private async Task GoToPageAsync(int pageIndex)
