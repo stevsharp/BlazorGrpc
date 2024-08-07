@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorAppData\BlazorAppData.csproj" />
+    <ProjectReference Include="..\..\BlazorGrpcSimpleMediater\BlazorGrpcSimpleMediater.csproj" />
     <ProjectReference Include="..\BlazorGrpc.Client\BlazorGrpc.Client.csproj" />
     <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />

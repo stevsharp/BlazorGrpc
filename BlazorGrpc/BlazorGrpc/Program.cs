@@ -1,11 +1,11 @@
 
 using BlazorAppData.Interrface;
 using BlazorAppData.Repository;
-
 using BlazorGrpc.Components;
+using BlazorGrpc.Handler;
 using BlazorGrpc.Model;
 using BlazorGrpc.Service;
-
+using BlazorGrpcSimpleMediater;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +18,12 @@ builder.Services.AddRazorComponents()
 builder.Services.AddGrpc(x=>x.EnableDetailedErrors = true);
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite("Data Source=products.db"));
+
 builder.Services.AddScoped<ServerProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-
+builder.Services.AddScoped<IMediator, Mediator>();
+builder.Services.AddScoped<IHandler<CreateProductCommand, CreateProductResponse>, CreateOrderHandler>();
 
 var app = builder.Build();
 
