@@ -12,23 +12,23 @@ public class CreateProductCommand : IRequest<CreateProductResponse>
 
     public CreateProductCommand(string name, decimal price)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+        }
+
         Name = name;
+
         Price = price;
     }
 }
 
-public record CreateProductResponse 
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-}
+public record CreateProductResponse(int Id, string Name, decimal Price);
 
-
-public class CreateOrderHandler : IHandler<CreateProductCommand, CreateProductResponse>
+public class CreateProductHandler : IHandler<CreateProductCommand, CreateProductResponse>
 {
     private readonly IProductRepository _productRepository;
-    public CreateOrderHandler(IProductRepository productRepository) => _productRepository = productRepository;
+    public CreateProductHandler(IProductRepository productRepository) => _productRepository = productRepository;
 
     public async Task<CreateProductResponse> Handle(CreateProductCommand request)
     {
@@ -43,11 +43,6 @@ public class CreateOrderHandler : IHandler<CreateProductCommand, CreateProductRe
         if (!isCreated)
             throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Created !!!!"));
 
-        return new CreateProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price
-        };
+        return new CreateProductResponse(product.Id, product.Name, product.Price);
     }
 }

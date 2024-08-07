@@ -2,48 +2,31 @@
 
 using BlazorGrpc.gRPC;
 using BlazorGrpc.Handler;
-using BlazorGrpc.Model;
-
 using BlazorGrpcSimpleMediater;
-
 using Grpc.Core;
 
 namespace BlazorGrpc.Service;
 
-
 public class ServerProductService : ProductService.ProductServiceBase
 {
-    private readonly IProductRepository _productRepository;
-
     private readonly IMediator _mediator;
-    public ServerProductService(IProductRepository productRepository, IMediator mediator)
-    {
-        _productRepository = productRepository;
-
-        _mediator = mediator;
-    }
+    public ServerProductService(IMediator mediator) => _mediator = mediator;
 
     public override async Task<ProductResponse> GetProduct(GetProductRequest request, ServerCallContext context)
     {
-        var product = await _productRepository.GetProductByIdAsync(request.Id);
-
-        if (product == null)
-        {
-            throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
-        }
+       var response = await _mediator.Send(new GetProductByIdCommand(request.Id)).ConfigureAwait(false);
 
         return new ProductResponse
         {
-            Id = product.Id,
-            Name = product.Name,
-            Price = (float)product.Price
+            Id = response.Id,
+            Name = response.Name,
+            Price = (float)response.Price
         };
     }
 
     public override async Task<ProductResponse> CreateProduct(CreateProductRequest request, ServerCallContext context)
     {
-
-        var response = await _mediator.Send(new CreateProductCommand(request.Name, (decimal)request.Price));
+        var response = await _mediator.Send(new CreateProductCommand(request.Name, (decimal)request.Price)).ConfigureAwait(false);
 
         return new ProductResponse
         {
@@ -55,37 +38,22 @@ public class ServerProductService : ProductService.ProductServiceBase
 
     public override async Task<ProductResponse> UpdateProduct(UpdateProductRequest request, ServerCallContext context)
     {
-        var product = new Product
-        {
-            Id = request.Id,
-            Name = request.Name,
-            Price = (decimal)request.Price
-        };
-
-        var isUpdated = await _productRepository.UpdateProduct(product);
-
-        if (!isUpdated)
-            throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Updated !!!"));
+        var response = await _mediator.Send(new UpdateProductCommand(request.Id, request.Name, (decimal)request.Price)).ConfigureAwait(false);
 
         return new ProductResponse
         {
-            Id = product.Id,
-            Name = product.Name,
-            Price = (float)product.Price
+            Id = response.Id,
+            Name = response.Name,
+            Price = (float)response.Price
         };
     }
 
     public override async Task<Empty> DeleteProduct(DeleteProductRequest request, ServerCallContext context)
     {
 
-        var product = new Product
-        {
-            Id = request.Id
-        };
+        var response = await _mediator.Send(new DeleteProductByIdCommand(request.Id)).ConfigureAwait(false);
 
-        var isDeleted = await _productRepository.DeleteProduct(product);
-
-        if (!isDeleted)
+        if (!response)
             throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
 
         return new Empty();
@@ -93,17 +61,17 @@ public class ServerProductService : ProductService.ProductServiceBase
 
     public override async Task<ProductListResponse> ListProducts(Empty request, ServerCallContext context)
     {
-        var products = await _productRepository.GetProductsAsync() ?? Enumerable.Empty<Product>();
+        var response = await _mediator.Send(new GetAllProductCommand()).ConfigureAwait(false);
 
-        var response = new ProductListResponse();
+        var productListResponse = new ProductListResponse();
 
-        response.Products.AddRange(products.Select(x => new ProductResponse
+        productListResponse.Products.AddRange(response.Select(x => new ProductResponse
         {
             Id = x.Id,
             Name = x.Name,
             Price = (float)x.Price
         }));
 
-        return response;
+        return productListResponse;
     }
 }

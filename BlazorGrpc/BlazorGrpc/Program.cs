@@ -23,7 +23,11 @@ builder.Services.AddScoped<ServerProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddScoped<IMediator, Mediator>();
-builder.Services.AddScoped<IHandler<CreateProductCommand, CreateProductResponse>, CreateOrderHandler>();
+builder.Services.AddScoped<IHandler<CreateProductCommand, CreateProductResponse>, CreateProductHandler>();
+builder.Services.AddScoped<IHandler<GetProductByIdCommand, GetByIdProductResponse>, GetByIdProductHandler>();
+builder.Services.AddScoped<IHandler<DeleteProductByIdCommand, bool>, DeleteByIdProductHandler>();
+builder.Services.AddScoped<IHandler<UpdateProductCommand, UpdateProductResponse>, UpdateProductHandler>();
+builder.Services.AddScoped<IHandler<GetAllProductCommand, List<GetAllProductResponse>>, GetAllProductHandler>();
 
 var app = builder.Build();
 
