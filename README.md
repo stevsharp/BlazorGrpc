@@ -1,8 +1,13 @@
 # BlazorGrpc
 
-BlazorGrpc is a sample project demonstrating how to implement a gRPC service using ASP.NET Core Blazor and Entity Framework Core for CRUD operations. 
+BlazorGrpc is a project demonstrating the integration of Blazor and gRPC for building a real-time, highly responsive web application using modern web technologies. 
+This project aims to showcase how Blazor WebAssembly and gRPC can be used together to create efficient and scalable web applications.
 
-This project uses SQLite as the database provider.
+Features
+Blazor WebAssembly: Client-side web UI framework using C# and .NET.
+gRPC: High-performance, open-source RPC framework that can run in any environment.
+Real-time Communication: Utilize gRPC to establish real-time communication between the client and server.
+Scalable Architecture: Designed to handle high loads and scale efficiently.
 
 ## Prerequisites
 
