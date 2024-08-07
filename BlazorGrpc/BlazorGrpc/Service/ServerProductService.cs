@@ -2,6 +2,8 @@
 
 using BlazorGrpc.gRPC;
 using BlazorGrpc.Handler;
+using BlazorGrpc.Notification;
+
 using BlazorGrpcSimpleMediater;
 using Grpc.Core;
 
@@ -28,6 +30,10 @@ public class ServerProductService : ProductService.ProductServiceBase
     {
         var response = await _mediator.Send(new CreateProductCommand(request.Name, (decimal)request.Price)).ConfigureAwait(false);
 
+        var @event = new ProductCreatedNotification($"Product Created {response.Id}");
+
+        await _mediator.PublishNotification(@event);
+
         return new ProductResponse
         {
             Id = response.Id,
@@ -50,7 +56,6 @@ public class ServerProductService : ProductService.ProductServiceBase
 
     public override async Task<Empty> DeleteProduct(DeleteProductRequest request, ServerCallContext context)
     {
-
         var response = await _mediator.Send(new DeleteProductByIdCommand(request.Id)).ConfigureAwait(false);
 
         if (!response)

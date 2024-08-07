@@ -4,9 +4,12 @@ using BlazorAppData.Repository;
 using BlazorGrpc.Components;
 using BlazorGrpc.Handler;
 using BlazorGrpc.Model;
+using BlazorGrpc.Notification;
 using BlazorGrpc.Service;
 using BlazorGrpcSimpleMediater;
 using Microsoft.EntityFrameworkCore;
+
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +25,14 @@ builder.Services.AddDbContext<ProductContext>(options =>
 builder.Services.AddScoped<ServerProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+
 builder.Services.AddScoped<IMediator, Mediator>();
 builder.Services.AddScoped<IHandler<CreateProductCommand, CreateProductResponse>, CreateProductHandler>();
 builder.Services.AddScoped<IHandler<GetProductByIdCommand, GetByIdProductResponse>, GetByIdProductHandler>();
 builder.Services.AddScoped<IHandler<DeleteProductByIdCommand, bool>, DeleteByIdProductHandler>();
 builder.Services.AddScoped<IHandler<UpdateProductCommand, UpdateProductResponse>, UpdateProductHandler>();
 builder.Services.AddScoped<IHandler<GetAllProductCommand, List<GetAllProductResponse>>, GetAllProductHandler>();
+builder.Services.AddScoped<INotificationHandler<ProductCreatedNotification>, ProducCreatedNotificationHandler>();
 
 var app = builder.Build();
 
