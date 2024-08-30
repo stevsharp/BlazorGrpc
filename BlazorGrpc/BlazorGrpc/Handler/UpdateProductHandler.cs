@@ -33,8 +33,19 @@ public record UpdateProductResponse(int Id, string Name, decimal Price);
 
 public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProductResponse>
 {
+
     private readonly IProductRepository _productRepository;
-    public UpdateProductHandler(IProductRepository productRepository) => _productRepository = productRepository;
+
+    private readonly IUnitOfWork<int> _unitOfWork;
+
+    public UpdateProductHandler(IProductRepository productRepository, IUnitOfWork<int> unitOfWork)
+    {
+        _productRepository = productRepository;
+
+        _unitOfWork = unitOfWork;
+
+    }
+
 
     public async Task<UpdateProductResponse> Handle(UpdateProductCommand request)
     {
@@ -45,7 +56,9 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
             Price = (decimal)request.Price
         };
 
-        var isUpdated = await _productRepository.UpdateProduct(product);
+         await _productRepository.UpdateProduct(product);
+
+        var isUpdated = await _unitOfWork.Commit(CancellationToken.None) > 0;
 
         if (!isUpdated)
             throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Updated !!!"));

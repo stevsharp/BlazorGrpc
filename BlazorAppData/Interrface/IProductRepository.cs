@@ -9,11 +9,10 @@ public interface IProductRepository
     Task<IEnumerable<Product>> GetProductsAsync();
 
     Task<Product> GetProductByIdAsync(object id);
+    Task DeleteProduct(Product product);
 
-    Task<bool> DeleteProduct(Product product);
+    Task UpdateProduct(Product product);
 
-    Task<bool> UpdateProduct(Product product);
-
-    Task<bool> CreateProdut(Product product);
+    Task CreateProdut(Product product);
 
 }

@@ -16,7 +16,7 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
-    public async Task<bool> CreateProdut(Product product)
+    public async Task CreateProdut(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
@@ -26,29 +26,19 @@ public class ProductRepository : IProductRepository
             Price = product.Price
         };
 
-        _context.Products.Add(product);
-
-        await _context.SaveChangesAsync();
-
-        return true;
+        await _context.Products.AddAsync(product);
     }
 
-    public async Task<bool> DeleteProduct(Product product)
+    public async Task DeleteProduct(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
         var id = product.Id;
 
-        var productForDelete = await _context.Products.FindAsync(id);
+        var productForDelete = await _context.Products.FindAsync(id) ?? throw new ArgumentException($"product with Id : {product.Id} not found !!!");
 
-        if (product is not null) {
+        _context.Products.Remove(productForDelete);
 
-             _context.Products.Remove(productForDelete);
-
-            return (await _context.SaveChangesAsync()) > 0;
-        }
-
-        return false;
     }
 
     public async Task<Product> GetProductByIdAsync(object id)
@@ -63,26 +53,19 @@ public class ProductRepository : IProductRepository
        return await this._context.Products.ToListAsync();
     }
 
-    public async Task<bool> UpdateProduct(Product product)
+    public async Task UpdateProduct(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
         var id = product.Id;
 
-        var productForUpdate = await _context.Products.FindAsync(id);
+        var productForUpdate = await _context.Products.FindAsync(id) ?? throw new ArgumentException($"product with Id : {product.Id} not found !!!");
 
-        if (productForUpdate is not null)
-        {
+        productForUpdate.Name = product.Name;
 
-            productForUpdate.Name = product.Name;
+        productForUpdate.Price = product.Price;
 
-            productForUpdate.Price = product.Price;
+        _context.Products.Update(productForUpdate);
 
-            _context.Products.Update(productForUpdate);
-
-            return (await _context.SaveChangesAsync()) > 0;
-        }
-
-        return false;
     }
 }

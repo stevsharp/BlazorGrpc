@@ -14,6 +14,8 @@
     <ProjectReference Include="..\..\BlazorAppData\BlazorAppData.csproj" />
     <ProjectReference Include="..\..\BlazorGrpcSimpleMediater\BlazorGrpcSimpleMediater.csproj" />
     <ProjectReference Include="..\BlazorGrpc.Client\BlazorGrpc.Client.csproj" />
+    <PackageReference Include="LazyCache" Version="2.4.0" />
+    <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.2" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.65.0" />

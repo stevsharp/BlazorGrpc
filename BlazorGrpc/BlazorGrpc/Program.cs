@@ -1,6 +1,8 @@
 
 using BlazorAppData.Interrface;
 using BlazorAppData.Repository;
+using BlazorAppData.UnitOfWork;
+
 using BlazorGrpc.Components;
 using BlazorGrpc.Handler;
 using BlazorGrpc.Model;
@@ -26,7 +28,12 @@ builder.Services.AddScoped<ServerProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 
+builder.Services.AddLazyCache();
 builder.Services.AddScoped<IMediator, Mediator>();
+
+builder.Services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+
+
 builder.Services.AddScoped<IHandler<CreateProductCommand, CreateProductResponse>, CreateProductHandler>();
 builder.Services.AddScoped<IHandler<GetProductByIdCommand, GetByIdProductResponse>, GetByIdProductHandler>();
 builder.Services.AddScoped<IHandler<DeleteProductByIdCommand, bool>, DeleteByIdProductHandler>();

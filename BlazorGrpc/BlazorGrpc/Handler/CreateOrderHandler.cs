@@ -1,4 +1,5 @@
 ﻿using BlazorAppData.Interrface;
+using BlazorAppData.UnitOfWork;
 
 using BlazorGrpc.Model;
 using BlazorGrpcSimpleMediater;
@@ -28,7 +29,16 @@ public record CreateProductResponse(int Id, string Name, decimal Price);
 public class CreateProductHandler : IHandler<CreateProductCommand, CreateProductResponse>
 {
     private readonly IProductRepository _productRepository;
-    public CreateProductHandler(IProductRepository productRepository) => _productRepository = productRepository;
+
+    private readonly IUnitOfWork<int> _unitOfWork;
+
+    public CreateProductHandler(IProductRepository productRepository, IUnitOfWork<int> unitOfWork) 
+    { 
+        _productRepository = productRepository; 
+
+        _unitOfWork = unitOfWork;
+    
+    }
 
     public async Task<CreateProductResponse> Handle(CreateProductCommand request)
     {
@@ -38,7 +48,9 @@ public class CreateProductHandler : IHandler<CreateProductCommand, CreateProduct
             Price = (decimal)request.Price
         };
 
-        var isCreated = await _productRepository.CreateProdut(product);
+        await _productRepository.CreateProdut(product);
+
+        var isCreated = await _unitOfWork.Commit(CancellationToken.None) > 0;
 
         if (!isCreated)
             throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Created !!!!"));
