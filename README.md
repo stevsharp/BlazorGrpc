@@ -9,6 +9,8 @@ BlazorGrpc is a project demonstrating the integration of Blazor and gRPC for bui
 - **Real-time Communication**: Utilize gRPC to establish real-time communication between the client and server.
 - **Scalable Architecture**: Designed to handle high loads and scale efficiently.
 - **Custom MediatR Implementation**: A custom implementation of the MediatR pattern to facilitate in-process messaging and command handling.
+- **Repository Pattern & Unit of Work: Implements the Repository pattern and Unit of Work to manage data persistence, providing a clean separation of concerns.
+- **Entity Framework Core & SQLite: Utilizes EF Core and SQLite for data storage, enabling a lightweight and efficient database solution.
 
 ## Getting Started
 
