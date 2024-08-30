@@ -48,14 +48,7 @@ Ensure you have the following installed:
     ```sh
     dotnet run --project Server/BlazorGrpc.Server.csproj
     ```
-
-2. **Run the Blazor WebAssembly client**:
-
-    ```sh
-    dotnet run --project Client/BlazorGrpc.Client.csproj
-    ```
-
-3. Open your browser and navigate to `https://localhost:5001` to see the application in action.
+2. Open your browser and navigate to `https://localhost:5001` to see the application in action.
 
 ## Project Structure
 
@@ -103,3 +96,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 - The gRPC contributors for creating a powerful RPC framework.
 - The Blazor community for continuous support and contributions.
 - The MediatR community for inspiring the custom implementation pattern.
+
+## Connect with Me
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://www.linkedin.com/in/spyros-ponaris-913a6937/)
