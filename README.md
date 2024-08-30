@@ -1,4 +1,4 @@
-# BlazorGrpc
+# Blazor And Grpc
 
 BlazorGrpc is a project demonstrating the integration of Blazor and gRPC for building a real-time, highly responsive web application using modern web technologies. This project aims to showcase how Blazor WebAssembly and gRPC can be used together to create efficient and scalable web applications. It also includes a custom implementation of the MediatR pattern to manage application logic and messaging.
 
