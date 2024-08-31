@@ -8,8 +8,12 @@ namespace BlazorGrpc.Components
         public string Title { get; set; }
         [Parameter]
         public string Message { get; set; }
+
         [Parameter]
         public EventCallback<bool> OnConfirmed { get; set; }
+
+        [Parameter]
+        public EventCallback<bool> OnCancel { get; set; }
 
 
         [Parameter]
@@ -18,6 +22,11 @@ namespace BlazorGrpc.Components
         private async Task Confirm(bool isConfirmed)
         {
             await OnConfirmed.InvokeAsync(isConfirmed);
+        }
+
+        private async Task Cancel(bool isConfirmed)
+        {
+            await OnCancel.InvokeAsync(isConfirmed);
         }
     }
 }

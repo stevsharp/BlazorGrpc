@@ -1,6 +1,4 @@
-﻿using BlazorAppData.Interrface;
-
-using BlazorGrpc.gRPC;
+﻿using BlazorGrpc.gRPC;
 using BlazorGrpc.Handler;
 using BlazorGrpc.Notification;
 

@@ -58,6 +58,8 @@ public partial class ProductEdit
 
             Snackbar.Add("Product Updated Successfully", Severity.Info);
 
+            this.StateHasChanged();
+
         }
         catch (Exception ex)
         {

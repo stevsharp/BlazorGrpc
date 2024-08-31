@@ -3,7 +3,7 @@ using BlazorGrpc.Service;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid;
-using Microsoft.JSInterop;
+
 
 namespace BlazorGrpc.Components.Pages;
 
