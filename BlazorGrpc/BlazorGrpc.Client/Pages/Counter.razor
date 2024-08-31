@@ -9,6 +9,15 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+
+@inject ISnackbar Snackbar
+
+<h3>ProductAdd</h3>
+
+<MudButton @onclick="@(() => Snackbar.Add("My Close button is gone!", Severity.Normal, config => { config.ShowCloseIcon = false; }))" Variant="Variant.Filled" Color="Color.Primary">
+    Open Modified Snackbar
+</MudButton>
+
 @code {
     private int currentCount = 0;
 

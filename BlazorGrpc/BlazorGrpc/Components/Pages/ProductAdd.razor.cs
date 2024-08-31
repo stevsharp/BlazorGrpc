@@ -3,6 +3,8 @@ using BlazorGrpc.Model;
 using BlazorGrpc.Service;
 using Microsoft.AspNetCore.Components;
 
+using MudBlazor;
+
 namespace BlazorGrpc.Components.Pages;
 
 public partial class ProductAdd
@@ -25,14 +27,26 @@ public partial class ProductAdd
 
     private async Task OnSubmit()
     {
-        var response = await ServerProduct.CreateProduct(new gRPC.CreateProductRequest
+
+        try
         {
-            Name = product.Name,
-            Price = (float)product.Price
-        }, null);
+            var response = await ServerProduct.CreateProduct(new gRPC.CreateProductRequest
+            {
+                Name = product.Name,
+                Price = (float)product.Price
+            }, null);
 
-        IsSaved = true;
+            IsSaved = true;
 
-        Message = "Product Added Successfully";
+            Message = "Product Added Successfully";
+
+            Snackbar.Add("Product Added Successfully", Severity.Info);
+
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+
     }
 }

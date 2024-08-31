@@ -1,6 +1,7 @@
 ﻿@page "/producteedit/{ProductId:int}"
-
 @rendermode InteractiveServer
+@inject ISnackbar Snackbar
+@using MudBlazor
 
 @if (!Saved)
 {
@@ -30,7 +31,6 @@
             </div>
 
             <button type="submit" class="btn btn-primary me-1">Save </button>
-
 
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Go to Products

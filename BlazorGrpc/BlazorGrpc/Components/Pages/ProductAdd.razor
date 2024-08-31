@@ -1,7 +1,10 @@
 ﻿@page "/productadd"
-@rendermode InteractiveServer
+@using MudBlazor
+@rendermode InteractiveAuto
+@inject ISnackbar Snackbar
 
 <h3>ProductAdd</h3>
+
 
 @if (!IsSaved)
 {

@@ -4,6 +4,8 @@ using BlazorGrpc.Service;
 
 using Microsoft.AspNetCore.Components;
 
+using MudBlazor;
+
 namespace BlazorGrpc.Components.Pages;
 
 public partial class ProductEdit
@@ -35,18 +37,32 @@ public partial class ProductEdit
 
     }
 
+    private void OnClick()
+    {
+        // Your logic here
+    }
+
     private async Task OnSubmit()
     {
-        var response = await ServerProduct.UpdateProduct(new gRPC.UpdateProductRequest
+
+        try
         {
-            Name = product.Name,
-            Price = (float)product.Price,
-            Id = product.Id
-        }, null);
+            var response = await ServerProduct.UpdateProduct(new gRPC.UpdateProductRequest
+            {
+                Name = product.Name,
+                Price = (float)product.Price,
+                Id = product.Id
+            }, null);
 
-        Saved = true;
+            Saved = true;
 
-        Message = "Product Updated Successfully";
+            Snackbar.Add("Product Updated Successfully", Severity.Info);
+
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
 
     }
 

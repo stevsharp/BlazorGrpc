@@ -3,6 +3,8 @@ using BlazorAppData.Interrface;
 using BlazorAppData.Repository;
 using BlazorAppData.UnitOfWork;
 
+using Blazored.LocalStorage;
+
 using BlazorGrpc.Components;
 using BlazorGrpc.Handler;
 using BlazorGrpc.Model;
@@ -11,7 +13,9 @@ using BlazorGrpc.Service;
 using BlazorGrpcSimpleMediater;
 using Microsoft.EntityFrameworkCore;
 
-using System;
+using MudBlazor;
+using MudBlazor.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,21 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 
 builder.Services.AddLazyCache();
+builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddMudServices(config =>
+{
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
+
+    config.SnackbarConfiguration.PreventDuplicates = false;
+    config.SnackbarConfiguration.NewestOnTop = false;
+    config.SnackbarConfiguration.ShowCloseIcon = true;
+    config.SnackbarConfiguration.VisibleStateDuration = 10000;
+    config.SnackbarConfiguration.HideTransitionDuration = 500;
+    config.SnackbarConfiguration.ShowTransitionDuration = 500;
+    config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+});
+
 builder.Services.AddScoped<IMediator, Mediator>();
 
 builder.Services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
