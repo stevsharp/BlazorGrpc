@@ -48,7 +48,7 @@ public class CreateProductHandler : IHandler<CreateProductCommand, CreateProduct
             Price = (decimal)request.Price
         };
 
-        await _productRepository.CreateProdut(product);
+        await _productRepository.CreateProdutAsync(product);
 
         var isCreated = await _unitOfWork.Commit(CancellationToken.None) > 0;
 

@@ -31,7 +31,7 @@ public class DeleteByIdProductHandler : IHandler<DeleteProductByIdCommand, bool>
             Id = request.Id
         };
 
-        await _productRepository.DeleteProduct(product);
+        await _productRepository.DeleteProductAsync(product);
 
         var isDeleted = await _unitOfWork.Commit(CancellationToken.None) > 0;
 

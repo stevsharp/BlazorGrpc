@@ -16,7 +16,7 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
-    public async Task CreateProdut(Product product)
+    public async Task CreateProdutAsync(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
@@ -29,7 +29,7 @@ public class ProductRepository : IProductRepository
         await _context.Products.AddAsync(product);
     }
 
-    public async Task DeleteProduct(Product product)
+    public async Task DeleteProductAsync(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
@@ -50,22 +50,31 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> GetProductsAsync()
     {
-       return await this._context.Products.ToListAsync();
+       return await this._context
+                .Products
+                .AsNoTracking()
+                .ToListAsync();
     }
 
-    public async Task UpdateProduct(Product product)
+    public async Task UpdateProductAsync(Product product)
     {
         ArgumentNullException.ThrowIfNull(product);
 
         var id = product.Id;
 
-        var productForUpdate = await _context.Products.FindAsync(id) ?? throw new ArgumentException($"product with Id : {product.Id} not found !!!");
+        await _context.Products.Where(x => x.Id == id)
+            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.Name ,product.Name)
+            .SetProperty(x => x.Price, product.Price));
 
-        productForUpdate.Name = product.Name;
-
-        productForUpdate.Price = product.Price;
-
-        _context.Products.Update(productForUpdate);
 
     }
 }
+
+
+//var productForUpdate = await _context.Products.FindAsync(id) ?? throw new ArgumentException($"product with Id : {product.Id} not found !!!");
+
+//productForUpdate.Name = product.Name;
+
+//productForUpdate.Price = product.Price;
+
+//_context.Products.Update(productForUpdate);

@@ -36,14 +36,9 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
 
     private readonly IProductRepository _productRepository;
 
-    private readonly IUnitOfWork<int> _unitOfWork;
-
-    public UpdateProductHandler(IProductRepository productRepository, IUnitOfWork<int> unitOfWork)
+    public UpdateProductHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
-
-        _unitOfWork = unitOfWork;
-
     }
 
 
@@ -56,12 +51,7 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
             Price = (decimal)request.Price
         };
 
-         await _productRepository.UpdateProduct(product);
-
-        var isUpdated = await _unitOfWork.Commit(CancellationToken.None) > 0;
-
-        if (!isUpdated)
-            throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Updated !!!"));
+        await _productRepository.UpdateProductAsync(product);
 
         return new UpdateProductResponse(product.Id, product.Name, product.Price);
     }
