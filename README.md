@@ -5,7 +5,7 @@ BlazorGrpc is a project demonstrating the integration of Blazor and gRPC for bui
 ## Features
 
 - **Blazor WebAssembly**: Client-side web UI framework using C# and .NET.
-- **QuickGrid Integration**: Includes QuickGrid, a powerful and lightweight grid component tailored for Blazor applications, offering high performance, customization, and the ability to efficiently handle large datasets.
+- **QuickGrid Integration**: Includes QuickGrid, a powerful and lightweight grid component tailored for Blazor applications, offering high performance, customization, and the ability to efficiently handle large datasets.https://aspnet.github.io/quickgridsamples/
 - **MudBlazor**: Includes MudBlazor Components https://mudblazor.com/
 - **gRPC**: High-performance, open-source RPC framework that can run in any environment.
 - **Real-time Communication**: Utilize gRPC to establish real-time communication between the client and server.
