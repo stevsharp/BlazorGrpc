@@ -13,11 +13,7 @@ public partial class ProductAdd
     protected ServerProductService? ServerProduct { get; set; }
 
     [SupplyParameterFromForm]
-    public Product product { get; set; }
-
-    protected string Message = string.Empty;
-
-    protected bool IsSaved = false;
+    public Product product { get; set; } = new Product();
     protected override Task OnInitializedAsync()
     {
         product ??= new();
@@ -36,9 +32,6 @@ public partial class ProductAdd
                 Price = (float)product.Price
             }, null);
 
-            IsSaved = true;
-
-            Message = "Product Added Successfully";
 
             Snackbar.Add("Product Added Successfully", Severity.Info);
 

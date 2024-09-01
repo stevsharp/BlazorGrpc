@@ -19,10 +19,6 @@ public partial class ProductEdit
     [SupplyParameterFromForm]
     public Product product { get; set; } = new();
 
-    protected bool Saved = false;
-
-    protected string Message = string.Empty;
-
     protected string StatusClass = string.Empty;
     protected override async Task OnInitializedAsync()
     {
@@ -37,11 +33,6 @@ public partial class ProductEdit
 
     }
 
-    private void OnClick()
-    {
-        // Your logic here
-    }
-
     private async Task OnSubmit()
     {
 
@@ -54,11 +45,8 @@ public partial class ProductEdit
                 Id = product.Id
             }, null);
 
-            Saved = true;
 
             Snackbar.Add("Product Updated Successfully", Severity.Info);
-
-            this.StateHasChanged();
 
         }
         catch (Exception ex)

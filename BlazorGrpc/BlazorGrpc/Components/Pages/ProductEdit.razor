@@ -1,52 +1,41 @@
 ﻿@page "/producteedit/{ProductId:int}"
 @using MudBlazor
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 @inject ISnackbar Snackbar
 
 
-@if (!Saved)
-{
-    <section class="employee-edit">
 
-        <h1 class="page-title">Details for @product.Id @product.Name</h1>
+<section class="employee-edit">
 
-        <EditForm Enhance Model="product" OnValidSubmit="@OnSubmit"
-                  FormName="EditEmployeeForm">
+    <h1 class="page-title">Details for @product.Id @product.Name</h1>
 
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <div class="row mb-3">
-                <label for="Product" class="col-form-label col-md-3">Product: </label>
-                <div class="col-md-8">
-                    <InputText id="Product" class="form-control col-md-8" @bind-Value="@product.Name" placeholder="Enter last name"></InputText>
-                    <ValidationMessage For="@(() => product.Name)" />
-                </div>
+    <EditForm Enhance Model="product" OnValidSubmit="@OnSubmit"
+              FormName="EditEmployeeForm">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row mb-3">
+            <label for="Product" class="col-form-label col-md-3">Product: </label>
+            <div class="col-md-8">
+                <InputText id="Product" class="form-control col-md-8" @bind-Value="@product.Name" placeholder="Enter last name"></InputText>
+                <ValidationMessage For="@(() => product.Name)" />
             </div>
+        </div>
 
-            <div class="row mb-3">
-                <label for="Price" class="col-form-label col-md-3">Price: </label>
-                <div class="col-md-8">
-                    <InputNumber id="Price" class="form-control col-md-8" @bind-Value="@product.Price" placeholder="Enter Price"></InputNumber>
-                    <ValidationMessage For="@(() => product.Price)" />
-                </div>
+        <div class="row mb-3">
+            <label for="Price" class="col-form-label col-md-3">Price: </label>
+            <div class="col-md-8">
+                <InputNumber id="Price" class="form-control col-md-8" @bind-Value="@product.Price" placeholder="Enter Price"></InputNumber>
+                <ValidationMessage For="@(() => product.Price)" />
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary me-1">Save </button>
+        <button type="submit" class="btn btn-primary me-1">Save </button>
 
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Go to Products
-            </NavLink>
-        </EditForm>
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Go to Products
+        </NavLink>
+    </EditForm>
 
+</section>
 
-
-    </section>
-}
-else
-{
-    <div class="alert @StatusClass">@Message</div>
-
-    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Go to Products
-    </NavLink>
-} 
