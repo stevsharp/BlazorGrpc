@@ -17,7 +17,7 @@
         <div class="row mb-3">
             <label for="Product" class="col-form-label col-md-3">Product: </label>
             <div class="col-md-8">
-                <InputText id="Product" class="form-control col-md-8" @bind-Value="@product.Name" placeholder="Enter last name"></InputText>
+                <InputText id="Product" class="form-control col-md-8" @bind-Value="@product.Name" placeholder="Enter Product name"></InputText>
                 <ValidationMessage For="@(() => product.Name)" />
             </div>
         </div>

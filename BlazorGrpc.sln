@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGrpc.Client", "Blazor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppData", "BlazorAppData\BlazorAppData.csproj", "{D0251030-FB10-4E2C-9582-B828A8DC5295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorGrpcSimpleMediater", "BlazorGrpcSimpleMediater\BlazorGrpcSimpleMediater.csproj", "{F902C181-19DF-4351-89C1-448C1F0233C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGrpcSimpleMediater", "BlazorGrpcSimpleMediater\BlazorGrpcSimpleMediater.csproj", "{F902C181-19DF-4351-89C1-448C1F0233C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorGrpc.FluentValidation", "BlazorGrpc.FluentValidation\BlazorGrpc.FluentValidation.csproj", "{CCF54559-BE9E-4DF4-AE06-283F04956626}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F902C181-19DF-4351-89C1-448C1F0233C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F902C181-19DF-4351-89C1-448C1F0233C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F902C181-19DF-4351-89C1-448C1F0233C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF54559-BE9E-4DF4-AE06-283F04956626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF54559-BE9E-4DF4-AE06-283F04956626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF54559-BE9E-4DF4-AE06-283F04956626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF54559-BE9E-4DF4-AE06-283F04956626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

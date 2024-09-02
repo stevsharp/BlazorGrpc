@@ -1,5 +1,7 @@
 ﻿using BlazorAppData.Interrface;
 using BlazorGrpc.Model;
+using BlazorGrpc.Validation;
+
 using BlazorGrpcSimpleMediater;
 using Grpc.Core;
 
@@ -50,6 +52,15 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
             Name = request.Name,
             Price = (decimal)request.Price
         };
+
+        var productValidator = new ProductValidator();
+
+        var validationResult = productValidator.Validate(product);
+
+        if (validationResult.Errors.Any())
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, string.Join(",", validationResult.Errors)));
+        }
 
         await _productRepository.UpdateProductAsync(product);
 

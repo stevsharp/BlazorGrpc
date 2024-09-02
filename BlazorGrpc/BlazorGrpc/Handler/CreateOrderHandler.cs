@@ -2,6 +2,8 @@
 using BlazorAppData.UnitOfWork;
 
 using BlazorGrpc.Model;
+using BlazorGrpc.Validation;
+
 using BlazorGrpcSimpleMediater;
 using Grpc.Core;
 namespace BlazorGrpc.Handler;
@@ -47,6 +49,14 @@ public class CreateProductHandler : IHandler<CreateProductCommand, CreateProduct
             Name = request.Name,
             Price = (decimal)request.Price
         };
+
+        var productValidator = new ProductValidator();
+
+        var validationResult = productValidator.Validate(product);
+
+        if (validationResult.Errors.Any()) {
+            throw new RpcException(new Status(StatusCode.NotFound, string.Join(",", validationResult.Errors)));
+        }
 
         await _productRepository.CreateProdutAsync(product);
 
