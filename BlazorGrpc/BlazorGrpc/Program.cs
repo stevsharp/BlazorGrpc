@@ -10,6 +10,8 @@ using BlazorGrpc.Handler;
 using BlazorGrpc.Model;
 using BlazorGrpc.Notification;
 using BlazorGrpc.Service;
+using BlazorGrpc.UIServices;
+
 using BlazorGrpcSimpleMediater;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,7 @@ builder.Services.AddGrpc(x=>x.EnableDetailedErrors = true);
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite("Data Source=products.db"));
 
+builder.Services.AddScoped<DialogUIService>();
 builder.Services.AddScoped<ServerProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 

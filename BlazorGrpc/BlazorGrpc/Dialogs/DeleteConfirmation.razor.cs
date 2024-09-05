@@ -12,8 +12,12 @@ public partial class DeleteConfirmation
     [Parameter] 
     public string? ContentText { get; set; }
 
+    [EditorRequired]
+    [Parameter] 
+    public object Command { get; set; } = default!;
     private Task Submit()
     {
+        MudDialog.Close(DialogResult.Ok(true));
 
         return Task.CompletedTask;
     }

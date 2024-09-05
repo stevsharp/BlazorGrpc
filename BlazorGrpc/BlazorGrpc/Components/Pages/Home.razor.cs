@@ -1,19 +1,19 @@
 ﻿using BlazorGrpc.Model;
 using BlazorGrpc.Service;
 using BlazorGrpc.Shared;
-
+using BlazorGrpc.UIServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid;
-
 using MudBlazor;
-
-
 namespace BlazorGrpc.Components.Pages;
 
 public partial class Home
 {
     [Inject]
     protected ServerProductService? ServerProduct { get; set; }
+
+    [Inject]
+    protected DialogUIService? Dialog { get; set; }
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
@@ -31,12 +31,12 @@ public partial class Home
     private ProductDto CurrentProduct { get; set; } = default!;
     protected override async Task OnInitializedAsync()
     {
-		try
-		{
+        try
+        {
             await FillData();
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             Snackbar.Add(ex.Message, Severity.Error);
         }
 
@@ -46,8 +46,7 @@ public partial class Home
     {
         loading = true;
 
-        if (productListResponse.Any())
-            productListResponse.Clear();
+        (productListResponse ??= new List<ProductDto>()).Clear();
 
         var response = await ServerProduct.ListProducts(null, null);
 
@@ -69,25 +68,32 @@ public partial class Home
             pagination.TotalItemCountChanged += (sender, eventArgs) => StateHasChanged();
         }
 
-        
+        StateHasChanged();
+
         loading = false;
     }
 
 
-    private  Task EditRow(ProductDto product )
+    private Task EditRow(ProductDto product)
     {
         NavigationManager.NavigateTo($"producteedit/{product.Id}");
 
         return Task.CompletedTask;
     }
 
-    private Task Delete(ProductDto product)
+    private async Task Delete(ProductDto product)
     {
-        ShowMessageBox = true;
+        var contentText = $"Delete Confirmation {product.Name}";
 
-        CurrentProduct = product;
-
-        return Task.CompletedTask;
+        await Dialog.ShowDeleteConfirmationDialog(new gRPC.DeleteProductRequest
+            {
+                Id = product.Id
+            }, "Delete ConfirmationTitle ", contentText,
+            async () =>
+            {
+                await FillData();
+            }
+        );
     }
 
 
@@ -101,32 +107,6 @@ public partial class Home
     private async Task ShowConfirmDialog(Product product)
     {
         ShowMessageBox = true;
-    }
-
-    private async Task OnConfirmed(bool isConfirmed)
-    {
-        if (isConfirmed)
-        {
-            if (CurrentProduct is null)
-                return;
-
-            loading = true;
-
-            await ServerProduct.DeleteProduct(new gRPC.DeleteProductRequest
-            {
-                Id = CurrentProduct.Id
-            }, null);
-
-
-            await FillData();
-
-        }
-        else
-        {
-            Console.WriteLine("Deletion cancelled.");
-        }
-
-        this.ShowMessageBox = false;
     }
 
     private async Task GoToPageAsync(int pageIndex)
