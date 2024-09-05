@@ -1,6 +1,5 @@
-﻿
-using BlazorGrpc.Model;
-using BlazorGrpc.Service;
+﻿using BlazorGrpc.Service;
+using BlazorGrpc.Shared;
 
 using Microsoft.AspNetCore.Components;
 
@@ -17,8 +16,12 @@ public partial class ProductEdit
     public int ProductId { get; set; }
 
     [SupplyParameterFromForm]
-    public Product product { get; set; } = new();
-
+    public ProductDto product { get; set; } = new ProductDto
+    {
+        Id = 0,
+        Name = string.Empty,
+        Price = 0m
+    };
     protected string StatusClass = string.Empty;
     protected override async Task OnInitializedAsync()
     {
@@ -35,7 +38,6 @@ public partial class ProductEdit
 
     private async Task OnSubmit()
     {
-
         try
         {
             var response = await ServerProduct.UpdateProduct(new gRPC.UpdateProductRequest

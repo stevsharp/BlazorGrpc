@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BlazorAppData\BlazorAppData.csproj" />
     <ProjectReference Include="..\..\BlazorGrpc.FluentValidation\BlazorGrpc.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\BlazorGrpc.Shared\BlazorGrpc.Shared.csproj" />
     <ProjectReference Include="..\..\BlazorGrpcSimpleMediater\BlazorGrpcSimpleMediater.csproj" />
     <ProjectReference Include="..\BlazorGrpc.Client\BlazorGrpc.Client.csproj" />
     <PackageReference Include="MudBlazor" Version="7.6.0" />

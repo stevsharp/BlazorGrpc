@@ -22,7 +22,7 @@ public class GetAllProductHandler : IHandler<GetAllProductCommand, List< GetAllP
 
         var response = new List<GetAllProductResponse>();
 
-        response.AddRange(products.Select(x => new GetAllProductResponse(x.Id, x.Name, x.Price)));
+        response.AddRange(products.Select(x => new GetAllProductResponse(x.Id, x.Name.Value, x.Price.Value)));
 
         return response;
     }

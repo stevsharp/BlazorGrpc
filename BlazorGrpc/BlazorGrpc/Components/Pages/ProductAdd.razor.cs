@@ -1,6 +1,8 @@
 ﻿
 using BlazorGrpc.Model;
 using BlazorGrpc.Service;
+using BlazorGrpc.Shared;
+
 using Microsoft.AspNetCore.Components;
 
 using MudBlazor;
@@ -13,10 +15,15 @@ public partial class ProductAdd
     protected ServerProductService? ServerProduct { get; set; }
 
     [SupplyParameterFromForm]
-    public Product product { get; set; } = new Product();
+    public ProductDto product { get; set; }
     protected override Task OnInitializedAsync()
     {
-        product ??= new();
+        product = new ProductDto
+        {
+            Id = 0,
+            Name = string.Empty,
+            Price = 0m
+        };
 
         return base.OnInitializedAsync();
     }
@@ -34,6 +41,13 @@ public partial class ProductAdd
 
 
             Snackbar.Add("Product Added Successfully", Severity.Info);
+
+            product = new ProductDto
+            {
+                Id = 0,
+                Name = string.Empty,
+                Price = 0m
+            };
 
         }
         catch (Exception ex)

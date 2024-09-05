@@ -1,5 +1,4 @@
 ﻿using BlazorAppData.Interrface;
-using BlazorAppData.UnitOfWork;
 
 using BlazorGrpc.Model;
 using BlazorGrpc.Validation;
@@ -44,11 +43,7 @@ public class CreateProductHandler : IHandler<CreateProductCommand, CreateProduct
 
     public async Task<CreateProductResponse> Handle(CreateProductCommand request)
     {
-        var product = new Product
-        {
-            Name = request.Name,
-            Price = (decimal)request.Price
-        };
+        var product = Product.ProductFactory.CreateProduct(request.Name, (decimal)request.Price);
 
         var productValidator = new ProductValidator();
 
@@ -65,6 +60,6 @@ public class CreateProductHandler : IHandler<CreateProductCommand, CreateProduct
         if (!isCreated)
             throw new RpcException(new Status(StatusCode.NotFound, "Product Could not be Created !!!!"));
 
-        return new CreateProductResponse(product.Id, product.Name, product.Price);
+        return new CreateProductResponse(product.Id, product.Name.Value, product.Price.Value);
     }
 }

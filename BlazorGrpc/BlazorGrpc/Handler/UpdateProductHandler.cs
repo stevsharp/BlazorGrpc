@@ -46,12 +46,7 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
 
     public async Task<UpdateProductResponse> Handle(UpdateProductCommand request)
     {
-        var product = new Product
-        {
-            Id = request.Id,
-            Name = request.Name,
-            Price = (decimal)request.Price
-        };
+        var product = Product.ProductFactory.Update(request.Id,request.Name, (decimal)request.Price);
 
         var productValidator = new ProductValidator();
 
@@ -64,6 +59,6 @@ public class UpdateProductHandler : IHandler<UpdateProductCommand, UpdateProduct
 
         await _productRepository.UpdateProductAsync(product);
 
-        return new UpdateProductResponse(product.Id, product.Name, product.Price);
+        return new UpdateProductResponse(product.Id, product.Name.Value, product.Price.Value);
     }
 }

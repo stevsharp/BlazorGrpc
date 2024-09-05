@@ -1,8 +1,11 @@
 ﻿using BlazorGrpc.Model;
 using BlazorGrpc.Service;
+using BlazorGrpc.Shared;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid;
+
+using MudBlazor;
 
 
 namespace BlazorGrpc.Components.Pages;
@@ -14,18 +17,18 @@ public partial class Home
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
-    protected List<Product> productListResponse { get; set; } = [];
-    private IQueryable<Product>? ProductIQueryable { get; set; }
+    protected List<ProductDto> productListResponse { get; set; } = [];
+    private IQueryable<ProductDto>? ProductIQueryable { get; set; }
 
     protected PaginationState pagination = new() { ItemsPerPage = 5 };
 
     protected bool loading = false;
 
-    private QuickGrid<Product> grid;
+    private QuickGrid<ProductDto> grid;
 
     private bool ShowMessageBox { get; set; } = false;
 
-    private Product CurrentProduct { get; set; } = default!;
+    private ProductDto CurrentProduct { get; set; } = default!;
     protected override async Task OnInitializedAsync()
     {
 		try
@@ -34,8 +37,8 @@ public partial class Home
         }
 		catch (Exception ex)
 		{
-			Console.WriteLine(ex.ToString());
-		}
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
 
     }
 
@@ -53,7 +56,7 @@ public partial class Home
 
             foreach (var item in response.Products)
             {
-                productListResponse.Add(new Product
+                productListResponse.Add(new ProductDto
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -71,14 +74,14 @@ public partial class Home
     }
 
 
-    private  Task EditRow(Product product )
+    private  Task EditRow(ProductDto product )
     {
         NavigationManager.NavigateTo($"producteedit/{product.Id}");
 
         return Task.CompletedTask;
     }
 
-    private Task Delete(Product product)
+    private Task Delete(ProductDto product)
     {
         ShowMessageBox = true;
 

@@ -20,12 +20,6 @@ public class ProductRepository : IProductRepository
     {
         ArgumentNullException.ThrowIfNull(product);
 
-        var productForCreate = new Product
-        {
-            Name = product.Name,
-            Price = product.Price
-        };
-
         await _context.Products.AddAsync(product);
     }
 
@@ -41,11 +35,19 @@ public class ProductRepository : IProductRepository
 
     }
 
+    public async Task DeleteProductAsync(int productId)
+    {
+        var productForDelete = await _context.Products.FindAsync(productId) ?? throw new ArgumentException($"product with Id : {productId} not found !!!");
+
+        _context.Products.Remove(productForDelete);
+    }
+
     public async Task<Product> GetProductByIdAsync(object id)
     {
         var product = await _context.Products.FindAsync(id);
 
-        return product ?? new Product();
+        return product ?? Product.ProductFactory.CreateProduct();
+
     }
 
     public async Task<IEnumerable<Product>> GetProductsAsync()
@@ -63,8 +65,8 @@ public class ProductRepository : IProductRepository
         var id = product.Id;
 
         await _context.Products.Where(x => x.Id == id)
-            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.Name ,product.Name)
-            .SetProperty(x => x.Price, product.Price));
+            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.Name.Value ,product.Name.Value)
+            .SetProperty(x => x.Price.Value, product.Price.Value));
 
 
     }

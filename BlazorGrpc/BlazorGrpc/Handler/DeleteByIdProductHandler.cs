@@ -1,8 +1,5 @@
 ﻿using BlazorAppData.Interrface;
-using BlazorGrpc.Model;
-
 using BlazorGrpcSimpleMediater;
-
 using Grpc.Core;
 
 namespace BlazorGrpc.Handler;
@@ -26,12 +23,8 @@ public class DeleteByIdProductHandler : IHandler<DeleteProductByIdCommand, bool>
     }
     public async Task<bool> Handle(DeleteProductByIdCommand request)
     {
-        var product = new Product
-        {
-            Id = request.Id
-        };
-
-        await _productRepository.DeleteProductAsync(product);
+       
+        await _productRepository.DeleteProductAsync(request.Id);
 
         var isDeleted = await _unitOfWork.Commit(CancellationToken.None) > 0;
 

@@ -26,6 +26,6 @@ public class GetByIdProductHandler : IHandler<GetProductByIdCommand, GetByIdProd
             throw new RpcException(new Status(StatusCode.NotFound, "Product not found"));
         }
 
-        return new GetByIdProductResponse(product.Id, product.Name, product.Price);
+        return new GetByIdProductResponse(product.Id, product.Name.Value, product.Price.Value);
     }
 }
