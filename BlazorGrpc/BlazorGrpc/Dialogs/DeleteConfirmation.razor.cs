@@ -3,6 +3,12 @@ using MudBlazor;
 
 namespace BlazorGrpc.Dialogs;
 
+public interface IFormDialog<TCommand>
+{
+    Func<Task> Refresh { get; set; }
+    TCommand Model { get; set; }
+}
+
 public partial class DeleteConfirmation
 {
     [CascadingParameter] 
