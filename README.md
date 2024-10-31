@@ -10,7 +10,8 @@ BlazorGrpc is a project demonstrating the integration of Blazor and gRPC for bui
 - **gRPC**: High-performance, open-source RPC framework that can run in any environment.
 - **Real-time Communication**: Utilize gRPC to establish real-time communication between the client and server.
 - **Scalable Architecture**: Designed to handle high loads and scale efficiently.
-- **Custom MediatR Implementation**: A custom implementation of the MediatR pattern to facilitate in-process messaging and command handling.
+- **Custom MediatR Implementation**: A custom implementation of the MediatR pattern to facilitate in-process messaging and command handling , inspired by the MediatR library 
+https://github.com/jbogard/MediatR
 - **Repository Pattern & Unit of Work**: Implements the Repository pattern and Unit of Work to manage data persistence, providing a clean separation of concerns.
 - **Entity Framework Core & SQLite**: Utilizes EF Core and SQLite for data storage, enabling a lightweight and efficient database solution. https://learn.microsoft.com/en-us/ef/core/
 - **Simple Fluent Validation Library**:  This repository contains a Simple Fluent Validation Library, a lightweight validation framework inspired by the FluentValidation library
